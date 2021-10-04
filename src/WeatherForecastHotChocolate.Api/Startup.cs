@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
-using WeatherForecastHotChocolate.Api.GraphQL;
 using WeatherForecastHotChocolate.Domain.Extensions;
 using WeatherForecastHotChocolate.Api.Extensions;
 using WeatherForecastHotChocolate.Domain.Models;
@@ -38,12 +37,12 @@ namespace WeatherForecastHotChocolate.Api
             services
                 .AddGraphQLServer()
                 .AddQueryType(q => q.Name("Query"))
+                    .AddTypeExtension<SummaryQuery>()
+                    .AddTypeExtension<WeatherForecastQuery>()
                 .AddMutationType(m => m.Name("Mutation"))
-                .AddType(new UuidType('D'))
-                .AddType<SummaryQuery>()
-                .AddType<WeatherForecastQuery>()
-                .AddType<SummaryMutation>()
-                .AddType<WeatherForecastMutation>();
+                    .AddTypeExtension<SummaryMutation>()
+                    .AddTypeExtension<WeatherForecastMutation>()
+                .AddType(new UuidType('D'));
         }
 
         public void Configure(IApplicationBuilder app)

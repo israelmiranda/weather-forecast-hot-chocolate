@@ -1,11 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using IronSnappy;
 using StackExchange.Redis;
+using WeatherForecastHotChocolate.Api.Extensions;
 using WeatherForecastHotChocolate.Domain.Models;
 using WeatherForecastHotChocolate.Domain.Repositories;
 
@@ -66,30 +65,6 @@ namespace WeatherForecastHotChocolate.Api.Services
             var result = System.Text.Encoding.UTF8.GetString(uncompressed);
 
             return result.FromJson<WeatherForecast>();
-        }
-    }
-
-    public static class JsonSerializerExtensions
-    {
-        public static string ToJson(this object request)
-        {
-            return JsonSerializer.Serialize(request,
-                new JsonSerializerOptions
-                {
-                    IgnoreNullValues = true,
-                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                    Converters = { new JsonStringEnumConverter() }
-                });
-        }
-
-        public static T FromJson<T>(this string request)
-        {
-            return JsonSerializer.Deserialize<T>(request,
-                new JsonSerializerOptions
-                {
-                    PropertyNameCaseInsensitive = true,
-                    Converters = { new JsonStringEnumConverter() }
-                });
         }
     }
 }
