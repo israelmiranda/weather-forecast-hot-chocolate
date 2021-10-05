@@ -59,7 +59,7 @@ namespace WeatherForecastHotChocolate.Api.Tests.GraphQL.Queries.Summaries
                 ");
 
             // assert
-            result.ToJson().MatchSnapshot();
+            Snapshot.Match(result.ToJson(), matchOptions => matchOptions.IgnoreField("data.summaries[*].id"));
         }
     }
 
@@ -73,7 +73,7 @@ namespace WeatherForecastHotChocolate.Api.Tests.GraphQL.Queries.Summaries
             {
                 new Summary
                 {
-                    Id = Guid.Parse("71a631ca-78fd-4856-9740-fe69a78ce456"),
+                    Id = Guid.NewGuid(),
                     Description = "SummaryTest",
                 },
             };
